@@ -1565,7 +1565,7 @@ class Jats2OC(object):
 					for pos, sibling in enumerate(rp_entities_list):
 						if pos < len(rp_entities_list)-1 and sibling != rp_entities_list[pos+1]:
 							cur_rp, next_rp = rp_entities_list[pos] , rp_entities_list[pos+1]
-							cur_rp.has_next_de(next_rp)
+							cur_rp.has_next_rp(next_rp)
 
 				else:
 					rp_num = Jats2OC.retrieve_rp_occurrence(be_ids, pl_entry[0])
