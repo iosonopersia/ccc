@@ -17,7 +17,7 @@
 __author__ = 'essepuntato'
 
 import unittest
-from script.ocdm.graphlib import GraphEntity, GraphSet
+from oc_ocdm import GraphEntity, GraphSet
 from rdflib import Graph, URIRef
 from script.spacin.conf import base_iri, context_path, info_dir, items_per_file
 

@@ -22,7 +22,7 @@ from script.support.support import dict_get as dg
 from script.support.support import encode_url
 from script.spacin.formatproc import FormatProcessor
 from script.ocdm.crossrefdatahandler import CrossrefDataHandler
-from script.ocdm.graphlib import GraphEntity
+from oc_ocdm import GraphEntity
 from script.ccc.jats2oc import Jats2OC as jt
 import threading, queue
 from script.spacin.bibentry import Bibentry

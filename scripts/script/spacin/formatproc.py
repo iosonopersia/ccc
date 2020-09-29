@@ -17,7 +17,7 @@
 __author__ = 'essepuntato'
 import re
 from script.support.reporter import Reporter
-from script.ocdm.graphlib import GraphSet
+from oc_ocdm import GraphSet
 from script.support.support import normalise_ascii as sa
 from urllib.parse import quote
 

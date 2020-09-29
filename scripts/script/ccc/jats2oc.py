@@ -23,7 +23,7 @@ from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
 import nltk.tokenize.punkt as pkt
 
 from script.spacin.formatproc import FormatProcessor
-from script.ocdm.graphlib import *
+from oc_ocdm import *
 from script.ocdm.conf import context_path as context_path
 
 from fuzzywuzzy import fuzz

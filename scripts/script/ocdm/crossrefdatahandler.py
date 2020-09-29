@@ -19,8 +19,8 @@ __author__ = 'essepuntato'
 from script.support.support import dict_list_get_by_value_ascii as dgt
 from script.support.support import string_list_close_match as slc
 from script.support.support import dict_get as dg
-from script.ocdm.graphlib import GraphSet
-from script.ocdm.graphlib import GraphEntity
+from oc_ocdm import GraphSet
+from oc_ocdm import GraphEntity
 from re import sub
 
 
