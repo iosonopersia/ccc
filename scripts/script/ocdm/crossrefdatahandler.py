@@ -100,7 +100,7 @@ class CrossrefDataHandler(object):
     @staticmethod
     def add_volume_data(vol, num):
         vol.create_volume()
-        vol.create_number(num)
+        vol.has_number(num)
 
     @staticmethod
     def get_ids_for_type(json):
@@ -142,10 +142,10 @@ class CrossrefDataHandler(object):
 
     def title(self, cur_br, key, json, *args):
         cur_title = CrossrefDataHandler.create_title_from_list(json[key])
-        cur_br.create_title(cur_title)
+        cur_br.has_title(cur_title)
 
     def subtitle(self, cur_br, key, json, *args):
-        cur_br.create_subtitle(CrossrefDataHandler.create_title_from_list(json[key]))
+        cur_br.has_subtitle(CrossrefDataHandler.create_title_from_list(json[key]))
 
     def author(self, cur_br, key, json, source, *args):
         # Get all ORCID of the authors (if any)
@@ -215,14 +215,14 @@ class CrossrefDataHandler(object):
                     self.rf.add_orcid_to_store(cur_agent, cur_agent_orcid, cur_orcid_record["orcid"])
 
                 if given_name_string is not None:
-                    cur_agent.create_given_name(given_name_string)
+                    cur_agent.has_given_name(given_name_string)
                 elif cur_orcid_record is not None and "given" in cur_orcid_record:
-                    cur_agent.create_given_name(cur_orcid_record["given"])
+                    cur_agent.has_given_name(cur_orcid_record["given"])
 
                 if family_name_string is not None:
-                    cur_agent.create_family_name(family_name_string)
+                    cur_agent.has_family_name(family_name_string)
                 elif cur_orcid_record is not None and "family" in cur_orcid_record:
-                    cur_agent.create_family_name(cur_orcid_record["family"])
+                    cur_agent.has_family_name(cur_orcid_record["family"])
             else:
                 cur_agent = self.g_set.add_ra(self.name, self.id, source, retrieved_agent)
 
@@ -260,7 +260,7 @@ class CrossrefDataHandler(object):
         # create a new one.
         if cur_agent is None:
             cur_agent = self.g_set.add_ra(self.name, self.id, source)
-            cur_agent.create_name(json[key])
+            cur_agent.has_name(json[key])
 
             if cur_member_url is not None:
                 cur_agent_id = self.g_set.add_id(self.name, self.id, source)
@@ -279,7 +279,7 @@ class CrossrefDataHandler(object):
         self.rf.add_doi_to_store(cur_br, cur_id, json[key])
 
     def issued(self, cur_br, key, json, *args):
-        cur_br.create_pub_date(json[key]["date-parts"][0])
+        cur_br.has_pub_date(json[key]["date-parts"][0])
 
     def url(self, cur_br, key, json, source, *args):
         cur_id = self.g_set.add_id(self.name, self.id, source)
@@ -290,8 +290,8 @@ class CrossrefDataHandler(object):
     def page(self, cur_br, key, json, source, *args):
         cur_page = json[key]
         cur_re = self.g_set.add_re(self.name, self.id, source)
-        if cur_re.create_starting_page(cur_page):
-            cur_re.create_ending_page(cur_page)
+        if cur_re.has_starting_page(cur_page):
+            cur_re.has_ending_page(cur_page)
             cur_br.has_format(cur_re)
 
     def container_title(self, cur_br, key, json, source, *args):
@@ -341,20 +341,20 @@ class CrossrefDataHandler(object):
                 if cur_type == "book-chapter":
                     cur_container_type = "book"
                     cont_br.create_book()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "book-part":
                     cur_container_type = "book"
                     cont_br.create_book()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "book-section":
                     cur_container_type = "book"
                     cont_br.create_book()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "book-track":
                     cur_container_type = "book-section"
                     cont_book = self.g_set.add_br(self.name, self.id, source)
                     cont_book.create_book()
-                    cont_book.create_title(cur_container_title)
+                    cont_book.has_title(cur_container_title)
                     self.__associate_isbn(cont_book, json, source)
                     already_associated_isbn = True
                     cont_book.has_part(cont_br)
@@ -362,11 +362,11 @@ class CrossrefDataHandler(object):
                 elif cur_type == "component":
                     cur_container_type = "component"
                     cont_br.create_expression_collection()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "dataset":
                     cur_container_type = "dataset"
                     cont_br.create_expression_collection()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "journal-article":
                     if cur_issue_id is None and cur_volume_id is None:
                         cur_container_type = "journal"
@@ -389,7 +389,7 @@ class CrossrefDataHandler(object):
                         if cur_issue_id is not None:
                             cur_container_type = "journal-issue"
                             cont_br.create_issue()
-                            cont_br.create_number(cur_issue_id)
+                            cont_br.has_number(cur_issue_id)
 
                             if cur_volume_id is None:
                                 jou_br.has_part(cont_br)
@@ -455,23 +455,23 @@ class CrossrefDataHandler(object):
                         self.rf.add_volume_to_store(jou_br.res, cur_br, cur_volume_id)
                 elif cur_type == "other":
                     cont_br.create_expression_collection()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "proceedings-article":
                     cur_container_type = "proceedings"
                     cont_br.create_proceedings()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "reference-entry":
                     cur_container_type = "reference-book"
                     cont_br.create_expression_collection()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "report":
                     cur_container_type = "report-series"
                     cont_br.create_expression_collection()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
                 elif cur_type == "standard":
                     cur_container_type = "standard-series"
                     cont_br.create_expression_collection()
-                    cont_br.create_title(cur_container_title)
+                    cont_br.has_title(cur_container_title)
 
                 # If the current type is in any of the ISSN or ISBN list
                 # add the identifier to the resource

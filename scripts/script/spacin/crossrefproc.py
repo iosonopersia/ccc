@@ -145,7 +145,7 @@ class CrossrefProcessor(FormatProcessor):
                     citing_entity.contains_in_reference_list(cur_be)
                     cited_entity.has_reference(cur_be)
                     self.__add_xmlid(cur_be, cur_be_xmlid)  # new
-                    cur_be.create_content(cur_bibentry.strip())
+                    cur_be.has_content(cur_bibentry.strip())
                     cited_entities_xmlid_be.append((cited_entity, cur_be_xmlid, cur_be))
 
             # create rp, pl, de, ci, an

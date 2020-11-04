@@ -21,6 +21,7 @@ from itertools import groupby
 from collections import defaultdict, Counter
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
 import nltk.tokenize.punkt as pkt
+from oc_ocdm.entities.bibliographic import ReferencePointer, PointerList
 
 from script.spacin.formatproc import FormatProcessor
 from oc_ocdm import *
@@ -1577,11 +1578,12 @@ class Jats2OC(object):
 				if cited_entity not in parsed_cited:
 					# gen_ci = graph.add_ci(resp_agent, citing_entity, cited_entity, rp_num=None, source_agent=source_provider, source=source)
 					gen_ci = graph.add_ci(resp_agent, source_agent=source_provider, source=source)
-					gen_ci._create_citation(citing_entity, cited_entity)
+					gen_ci.has_citing_entity(citing_entity)
+					gen_ci.has_cited_entity(cited_entity)
 					oci = Jats2OC.add_oci(graph, gen_ci, citing_entity, cited_entity, resp_agent, source_provider=source_provider, source=source, rp_num=None)
 					gen_an = graph.add_an(resp_agent, source_provider, source)
-					gen_an._create_body_annotation(gen_ci)
-					be._create_annotation(gen_an)
+					gen_an.has_body_annotation(gen_ci)
+					be.has_annotation(gen_an)
 					parsed_cited.append(cited_entity)
 
 			siblings = Jats2OC.create_following_sibling(reference_pointer_list, de_resources)
@@ -1593,7 +1595,7 @@ class Jats2OC(object):
 		cur_pl = graph.add_pl(resp_agent, source_provider, source)
 		containers_title = pl_entry[0]["containers_title"]
 		if "pl_string" in pl_entry[0]:
-			cur_pl.create_content(pl_entry[0]["pl_string"])
+			cur_pl.has_content(pl_entry[0]["pl_string"])
 		if "pl_xpath" in pl_entry[0]:
 			pl_xpath = Jats2OC.add_xpath(graph, cur_pl, pl_entry[0]["pl_xpath"], resp_agent, source_provider, source)
 		if "context_xpath" in pl_entry[0]:
@@ -1609,7 +1611,7 @@ class Jats2OC(object):
 		if "rp_xpath" in dict_pointer:
 			rp_xpath = Jats2OC.add_xpath(graph, cur_rp, dict_pointer["rp_xpath"], resp_agent, source_provider, source)
 		if "rp_string" in dict_pointer:
-			cur_rp.create_content(dict_pointer["rp_string"])
+			cur_rp.has_content(dict_pointer["rp_string"])
 		if in_list==False:
 			if "context_xpath" in dict_pointer:
 				context = Jats2OC.create_context(graph, citing_entity, cur_rp, dict_pointer["context_xpath"], dict_pointer["context_sequence"], de_resources, containers_title, resp_agent, source_provider, source)
@@ -1621,9 +1623,10 @@ class Jats2OC(object):
 				# cur_ci = graph.add_ci(resp_agent, citing_entity, cited_entity, rp_num, source_provider, source)
 				cur_ci = graph.add_ci(resp_agent, source_provider, source)
 				oci = Jats2OC.add_oci(graph, cur_ci, citing_entity, cited_entity, resp_agent, source_provider=source_provider, source=source, rp_num=rp_num)
-				cur_ci._create_citation(citing_entity, cited_entity)
-				cur_an._create_body_annotation(cur_ci)
-				cur_rp._create_annotation(cur_an)
+				cur_ci.has_citing_entity(citing_entity)
+				cur_ci.has_cited_entity(cited_entity)
+				cur_an.has_body_annotation(cur_ci)
+				cur_rp.has_annotation(cur_an)
 
 
 		return cur_rp
@@ -1667,7 +1670,10 @@ class Jats2OC(object):
 	def create_context(graph, citing_entity, cur_rp_or_pl, xpath_string, context_sequence, de_resources, containers_title, resp_agent=None, source_provider=None, source=None):
 		cur_sent = Jats2OC.de_finder(graph, citing_entity, xpath_string, context_sequence, de_resources, containers_title, resp_agent, source_provider, source)
 		if cur_sent != None:
-			cur_sent.is_context_of_rp_or_pl(cur_rp_or_pl)
+			if type(cur_rp_or_pl) == ReferencePointer:
+				cur_sent.is_context_of_rp(cur_rp_or_pl)
+			elif type(cur_rp_or_pl) == PointerList:
+				cur_sent.is_context_of_pl(cur_rp_or_pl)
 
 
 
@@ -1682,7 +1688,7 @@ class Jats2OC(object):
 			elif 'substring(string(' in xpath_string and conf.tablewrap_tag not in xpath_string:
 				de_res.create_sentence()
 				if context_sequence["type"] == "Sentence" and isinstance(context_sequence["num"], int):
-					de_res.create_number(str(context_sequence["num"]))
+					de_res.has_number(str(context_sequence["num"]))
 			else:
 				de_res.create_discourse_element(Jats2OC.elem_to_type(xpath_string))
 				# add sequence number
@@ -1691,28 +1697,28 @@ class Jats2OC(object):
 				# if is a paragraph
 				if last_el.startswith('/'+conf.paragraph_tag) \
 					and isinstance(context_sequence["paragraph"], int):
-					de_res.create_number(str(context_sequence["paragraph"]))
+					de_res.has_number(str(context_sequence["paragraph"]))
 				# if is the first section
 				if last_el.startswith('/'+conf.section_tag) \
 					and conf.section_tag not in base \
 					and isinstance(context_sequence["section"], int):
-					de_res.create_number(str(context_sequence["section"]))
+					de_res.has_number(str(context_sequence["section"]))
 				# if is table, caption, footnote
 				if last_el.startswith('/'+conf.table_tag) \
 					and context_sequence["type"] == "Table" \
 					and isinstance(context_sequence["num"], int):
-					de_res.create_number(str(context_sequence["num"]))
+					de_res.has_number(str(context_sequence["num"]))
 				if last_el.startswith('/'+conf.caption_tag) \
 					and context_sequence["type"] == "Caption" \
 					and isinstance(context_sequence["num"], int):
-					de_res.create_number(str(context_sequence["num"]))
+					de_res.has_number(str(context_sequence["num"]))
 				if last_el.startswith('/'+conf.footnote_tag) \
 					and context_sequence["type"] == "Footnote" \
 					and isinstance(context_sequence["num"], int):
-					de_res.create_number(str(context_sequence["num"]))
+					de_res.has_number(str(context_sequence["num"]))
 			de_xpath = Jats2OC.add_xpath(graph, de_res, xpath_string, resp_agent, source_provider, source)
 			if xpath_string+'/title' in containers_title:
-				de_res.create_title(containers_title[xpath_string+'/title'])
+				de_res.has_title(containers_title[xpath_string+'/title'])
 			hierarchy = Jats2OC.create_hierarchy(graph, citing_entity, de_res, Jats2OC.get_subxpath_from(xpath_string), context_sequence, de_resources, containers_title, resp_agent, source_provider, source)
 		else:
 			de_res = cur_de[0]
