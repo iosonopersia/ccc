@@ -253,7 +253,7 @@ class Storer(object):
                 for item in cur_json_ld:
                     item["@context"] = context_path
 
-            with open(cur_file_path, "w") as f:
+            with open(cur_file_path, "w", encoding='utf8') as f:
                 json.dump(cur_json_ld, f, indent=4, ensure_ascii=False)
         elif self.nt:
             new_g.serialize(cur_file_path, format="nt11", encoding="utf-8")

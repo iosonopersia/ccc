@@ -175,7 +175,7 @@ class BibliographicReferenceStorer(object):
                 os.makedirs(new_dir_path)
 
             try:
-                with open(new_file_path, "w") as f:
+                with open(new_file_path, "w", encoding='utf8') as f:
                     json.dump(json_item, f, indent=4, ensure_ascii=False)
             except Exception as e:
                 print(e,"\n\n", json_item, "\n\n")
