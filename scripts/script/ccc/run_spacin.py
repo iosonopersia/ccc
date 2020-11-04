@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 import json, traceback, re, shutil
 from datetime import datetime
+
+from oc_ocdm.counter_handler import FilesystemCounterHandler
 from script.ccc.conf_spacin import reference_dir, base_iri, context_path, info_dir, triplestore_url, orcid_conf_path, \
     base_dir, temp_dir_for_rdf_loading, context_file_path, dir_split_number, items_per_file, triplestore_url_real, \
     dataset_home, reference_dir_done, reference_dir_error, interface, supplier_dir, default_dir, do_parallel, \
@@ -61,15 +63,8 @@ try:
                             mean_time += time_spent
                             n_document_processed += 1
                             if result is not None:
-                                prov = ProvSet(result, base_iri, context_path, default_dir, full_info_dir,
-                                               ResourceFinder(base_dir=base_dir, base_iri=base_iri,
-                                                              tmp_dir=temp_dir_for_rdf_loading,
-                                                              context_map=
-                                                              {context_path: context_file_path},
-                                                              dir_split=dir_split_number,
-                                                              n_file_item=items_per_file,
-                                                              default_dir=default_dir),
-                                               dir_split_number, items_per_file, supplier_prefix, triplestore_url,wanted_label=False)
+                                prov = ProvSet(result, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
+                                               supplier_prefix, triplestore_url, wanted_label=False)
                                 prov.generate_provenance(resp_agent="https://w3id.org/oc/ccc/prov/pa/0701") # TODO is it fine?
 
                                 res_storer = Storer(result,

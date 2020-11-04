@@ -24,6 +24,7 @@ from script.spacin.resfinder import ResourceFinder
 from script.spacin.conf import base_iri, context_path, base_dir, temp_dir_for_rdf_loading, context_file_path, \
     dir_split_number, items_per_file, triplestore_url_real, dataset_home, default_dir, info_dir, triplestore_url
 from oc_ocdm import GraphSet, ProvSet
+from oc_ocdm.counter_handler import FilesystemCounterHandler
 from os import sep
 from script.ocdm.storer import Storer
 from script.ocdm.datasethandler import DatasetHandler
@@ -44,15 +45,8 @@ agent_name="Import Script"
 
 
 def store_all(gs):
-    prov = ProvSet(gs, base_iri, context_path, default_dir, full_info_dir,
-                   ResourceFinder(base_dir=base_dir, base_iri=base_iri,
-                                  tmp_dir=temp_dir_for_rdf_loading,
-                                  context_map={context_path: context_file_path},
-                                  dir_split=dir_split_number,
-                                  n_file_item=items_per_file,
-                                  default_dir=default_dir),
-                   dir_split_number, items_per_file, "")  # Prefix set to "" so as to avoid it for prov data
-    prov.generate_provenance()
+    prov = ProvSet(gs, base_iri, context_path, FilesystemCounterHandler(full_info_dir), "", triplestore_url)  # Prefix set to "" so as to avoid it for prov data
+    prov.generate_provenance(resp_agent="")
 
     print("Store the data for %s entities." % str(entity_count))
     res_storer = Storer(gs,
@@ -201,14 +195,14 @@ if __name__ == "__main__":
     full_info_dir = info_dir + args.prefix + sep
 
     print("Generate data compliant with the OCDM.")
-    gs = GraphSet(base_iri, context_path)
+    gs = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
     entity_count = 1000
     counter = 0
     for s in g.subjects():
         if counter == entity_count:
             store_all(gs)
             counter = 0
-            gs = GraphSet(base_iri, context_path)
+            gs = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
 
         with open(args.done, "a") as f:
             s_string = str(s)

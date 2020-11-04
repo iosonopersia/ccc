@@ -16,6 +16,7 @@
 
 __author__ = 'essepuntato'
 
+from oc_ocdm.counter_handler import FilesystemCounterHandler
 from script.support.support import dict_list_get_by_value_ascii as dgt
 from script.support.support import string_list_close_match as slc
 from script.support.support import dict_get as dg
@@ -36,7 +37,7 @@ class CrossrefDataHandler(object):
     issn_types = ["book-series", "book-set", "journal", "report-series", "standard-series"]
 
     def __init__(self, graph_set=GraphSet("http://localhost:8000/corpus/", "corpus/context.json",
-                                          "test/share/id-counter/_/", 1000, ""),
+                                          FilesystemCounterHandler("test/share/id-counter/_/")),
                  orcid_finder=None, resource_finder=None):
         self.name = "Crossref Data Handler"
         self.id = "Crossref"

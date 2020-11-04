@@ -16,6 +16,8 @@
 
 __author__ = 'essepuntato'
 import re
+
+from oc_ocdm.counter_handler import FilesystemCounterHandler
 from script.support.reporter import Reporter
 from oc_ocdm import GraphSet
 from script.support.support import normalise_ascii as sa
@@ -63,7 +65,7 @@ class FormatProcessor(object):
                     self.reference_pointers = entries["reference_pointers"]
 
         self.name = "SPACIN " + self.__class__.__name__
-        self.g_set = GraphSet(base_iri, context_base, info_dir, n_file_item, supplier_prefix, wanted_label=False) # added no label param
+        self.g_set = GraphSet(base_iri, context_base, FilesystemCounterHandler(info_dir), supplier_prefix, wanted_label=False) # added no label param
         self.id = agent_id
         self.repok = Reporter(prefix="[%s - INFO] " % self.name)
         self.repok.new_article()

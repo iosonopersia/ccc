@@ -20,6 +20,8 @@
 from argparse import ArgumentParser
 from json import load
 from re import sub, match
+
+from oc_ocdm.counter_handler import FilesystemCounterHandler
 from rdflib import URIRef, Graph
 from urllib.parse import quote
 from requests import get
@@ -27,9 +29,8 @@ from requests.exceptions import Timeout
 from oc_ocdm import GraphSet, GraphEntity, ProvSet
 from script.ocdm.storer import Storer
 from script.spacin.conf import base_iri, context_path, base_dir, temp_dir_for_rdf_loading, context_file_path, \
-    dir_split_number, items_per_file, triplestore_url_real, dataset_home, default_dir, info_dir
+    dir_split_number, items_per_file, triplestore_url_real, dataset_home, default_dir, info_dir, triplestore_url
 from script.support.support import find_paths
-from script.spacin.resfinder import ResourceFinder
 from script.ocdm.datasethandler import DatasetHandler
 from os import sep, path, makedirs
 from time import sleep
@@ -40,15 +41,9 @@ agent_name="FixDOI Script"
 
 
 def update_all(g_set, remove_entity, full_info_dir):
-    prov = ProvSet(g_set, base_iri, context_path, default_dir, full_info_dir,
-                   ResourceFinder(base_dir=base_dir, base_iri=base_iri,
-                                  tmp_dir=temp_dir_for_rdf_loading,
-                                  context_map={context_path: context_file_path},
-                                  dir_split=dir_split_number,
-                                  n_file_item=items_per_file,
-                                  default_dir=default_dir),
-                   dir_split_number, items_per_file, "")
-    prov.generate_provenance(do_insert=False, remove_entity=remove_entity)
+    prov = ProvSet(g_set, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
+                   "", triplestore_url)
+    prov.generate_provenance(resp_agent="", do_insert=False, remove_entity=remove_entity)
 
     res_storer = Storer(g_set,
                         context_map={context_path: context_file_path},
@@ -198,8 +193,8 @@ if __name__ == "__main__":
             br_iri = []
             br_files = {}
             id_files = {}
-            update_br = GraphSet(base_iri, context_path)
-            remove_id = GraphSet(base_iri, context_path)
+            update_br = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
+            remove_id = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
 
             print("\n\nSupplier directory '%s'" % full_info_dir)
             to_remove = info_dirs[full_info_dir]
@@ -213,8 +208,8 @@ if __name__ == "__main__":
                     br_iri = []
                     br_files = {}
                     id_files = {}
-                    update_br = GraphSet(base_iri, context_path)
-                    remove_id = GraphSet(base_iri, context_path)
+                    update_br = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
+                    remove_id = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
 
                 if str(br) not in br_done:  # Check if it has not been considered, and if so process it
                     br_counter += 1
