@@ -17,6 +17,7 @@
 __author__ = 'essepuntato'
 
 from oc_ocdm.counter_handler import FilesystemCounterHandler
+from oc_ocdm.support import create_date
 from script.support.support import dict_list_get_by_value_ascii as dgt
 from script.support.support import string_list_close_match as slc
 from script.support.support import dict_get as dg
@@ -282,7 +283,8 @@ class CrossrefDataHandler(object):
         self.rf.add_doi_to_store(cur_br, cur_id, json[key])
 
     def issued(self, cur_br, key, json, *args):
-        cur_br.has_pub_date(json[key]["date-parts"][0])
+        date_str = create_date(json[key]["date-parts"][0])
+        cur_br.has_pub_date(date_str)
 
     def url(self, cur_br, key, json, source, *args):
         cur_id = self.g_set.add_id(self.name, self.id, source)
