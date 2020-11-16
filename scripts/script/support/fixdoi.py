@@ -226,7 +226,7 @@ if __name__ == "__main__":
                     # For each identifier to remove in a certain br...
                     for iden in to_remove[br]:
                         print("Analyse %s" % iden)
-                        t = (br, GraphEntity.has_identifier, iden)
+                        t = (br, GraphEntity.iri_has_identifier, iden)
                         if t in cur_g:
                             # ... it specify the statement 'br has_identifier id' to be removed in br
                             # (after this for block)...

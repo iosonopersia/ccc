@@ -109,7 +109,7 @@ class CrossrefProcessor(FormatProcessor):
         citing_entity = None
 
         if self.occ is not None:
-            citing_resource = self.rf.retrieve_entity(self.occ, GraphEntity.expression, typ='only_blazegraph')
+            citing_resource = self.rf.retrieve_entity(self.occ, GraphEntity.iri_expression, typ='only_blazegraph')
             citing_entity = self.g_set.add_br(self.name, self.id, self.source_provider, citing_resource)
 
         if citing_entity is None and self.doi is not None:

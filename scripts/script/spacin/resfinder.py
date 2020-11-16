@@ -142,7 +142,7 @@ class ResourceFinder(object):
                     return res
 
     def retrieve_from_orcid(self, string, typ='both'):
-        return self.__id_with_type(string, GraphEntity.orcid, typ=typ)
+        return self.__id_with_type(string, GraphEntity.iri_orcid, typ=typ)
 
     def retrieve_entity(self, string, typ='both'):
         query = """
@@ -154,40 +154,40 @@ class ResourceFinder(object):
 
     def retrieve_citing_from_doi(self, string, typ='only_blazegraph'):
         return self.__id_with_type(
-            string.lower(), GraphEntity.doi, "?res <%s> ?cited" % GraphEntity.cites, typ)
+            string.lower(), GraphEntity.iri_doi, "?res <%s> ?cited" % GraphEntity.iri_cites, typ)
 
     def retrieve_citing_from_pmid(self, string, typ='only_blazegraph'):
         return self.__id_with_type(
-            string, GraphEntity.pmid, "?res <%s> ?cited" % GraphEntity.cites, typ)
+            string, GraphEntity.iri_pmid, "?res <%s> ?cited" % GraphEntity.iri_cites, typ)
 
     def retrieve_citing_from_pmcid(self, string, typ='only_blazegraph'):
         return self.__id_with_type(
-            string, GraphEntity.pmcid, "?res <%s> ?cited" % GraphEntity.cites, typ)
+            string, GraphEntity.iri_pmcid, "?res <%s> ?cited" % GraphEntity.iri_cites, typ)
 
     def retrieve_citing_from_url(self, string, typ='only_blazegraph'):
         return self.__id_with_type(
-            string.lower(), GraphEntity.url, "?res <%s> ?cited" % GraphEntity.cites, typ)
+            string.lower(), GraphEntity.iri_url, "?res <%s> ?cited" % GraphEntity.iri_cites, typ)
 
     def retrieve_from_doi(self, string, typ='both'):
-        return self.__id_with_type(string.lower(), GraphEntity.doi, typ=typ)
+        return self.__id_with_type(string.lower(), GraphEntity.iri_doi, typ=typ)
 
     def retrieve_from_pmid(self, string, typ='both'):
-        return self.__id_with_type(string, GraphEntity.pmid, typ=typ)
+        return self.__id_with_type(string, GraphEntity.iri_pmid, typ=typ)
 
     def retrieve_from_pmcid(self, string, typ='both'):
-        return self.__id_with_type(string, GraphEntity.pmcid, typ=typ)
+        return self.__id_with_type(string, GraphEntity.iri_pmcid, typ=typ)
 
     def retrieve_from_url(self, string, typ='both'):
-        return self.__id_with_type(string.lower(), GraphEntity.url, typ=typ)
+        return self.__id_with_type(string.lower(), GraphEntity.iri_url, typ=typ)
 
     def retrieve_from_crossref(self, string, typ='both'):
-        return self.__id_with_type(string, GraphEntity.crossref, typ=typ)
+        return self.__id_with_type(string, GraphEntity.iri_crossref, typ=typ)
 
     def retrieve_from_issn(self, string, typ='both'):
-        return self.__id_with_type(string, GraphEntity.issn, typ=typ)
+        return self.__id_with_type(string, GraphEntity.iri_issn, typ=typ)
 
     def retrieve_from_isbn(self, string, typ='both'):
-        return self.__id_with_type(string, GraphEntity.isbn, typ=typ)
+        return self.__id_with_type(string, GraphEntity.iri_isbn, typ=typ)
 
     def retrieve_issue_from_journal(self, id_dict, issue_id, volume_id):
         retrieved_journal = self.retrieve(id_dict, 'both')
@@ -234,35 +234,35 @@ class ResourceFinder(object):
                                 <{}> <{}> ;
                                 <{}> "{}"
                         }} LIMIT 1
-                    """.format(GraphEntity.journal_volume, GraphEntity.part_of, retrieved_journal, GraphEntity.has_sequence_identifier, volume_id)
+                    """.format(GraphEntity.iri_journal_volume, GraphEntity.iri_part_of, retrieved_journal, GraphEntity.iri_has_sequence_identifier, volume_id)
                 return self.__query(query)
 
             else:
                 return cur_volume
 
     def retrieve_url_string(self, res, typ):
-        return self.__retrieve_res_id_string(res, GraphEntity.url, typ)
+        return self.__retrieve_res_id_string(res, GraphEntity.iri_url, typ)
 
     def retrieve_doi_string(self, res, typ):
-        return self.__retrieve_res_id_string(res, GraphEntity.doi, typ)
+        return self.__retrieve_res_id_string(res, GraphEntity.iri_doi, typ)
 
     def retrieve_pmid_string(self, res, typ):
-        return self.__retrieve_res_id_string(res, GraphEntity.pmid, typ)
+        return self.__retrieve_res_id_string(res, GraphEntity.iri_pmid, typ)
 
     def retrieve_pmcid_string(self, res, typ):
-        return self.__retrieve_res_id_string(res, GraphEntity.pmcid, typ)
+        return self.__retrieve_res_id_string(res, GraphEntity.iri_pmcid, typ)
 
     def retrieve_br_url(self, res, string, typ):
-        return self.__retrieve_res_id_by_type(res, string.lower(), GraphEntity.url, typ)
+        return self.__retrieve_res_id_by_type(res, string.lower(), GraphEntity.iri_url, typ)
 
     def retrieve_br_doi(self, res, string, typ):
-        return self.__retrieve_res_id_by_type(res, string.lower(), GraphEntity.doi, typ)
+        return self.__retrieve_res_id_by_type(res, string.lower(), GraphEntity.iri_doi, typ)
 
     def retrieve_br_pmid(self, res, string, typ):
-        return self.__retrieve_res_id_by_type(res, string, GraphEntity.pmid, typ)
+        return self.__retrieve_res_id_by_type(res, string, GraphEntity.iri_pmid, typ)
 
     def retrieve_br_pmcid(self, res, string, typ):
-        return self.__retrieve_res_id_by_type(res, string, GraphEntity.pmcid, typ)
+        return self.__retrieve_res_id_by_type(res, string, GraphEntity.iri_pmcid, typ)
 
     def retrieve_last_snapshot(self, prov_subj):
         query = '''
@@ -270,7 +270,7 @@ class ResourceFinder(object):
                 ?se <{}> <{}> .
                 FILTER NOT EXISTS {{?se <{}> ?ca }}
             }} LIMIT 1
-        '''.format(ProvEntity.specialization_of, str(prov_subj), ProvEntity.was_invalidated_by)
+        '''.format(ProvEntity.iri_specialization_of, str(prov_subj), ProvEntity.iri_was_invalidated_by)
         return self.__query(query)
 
     def __retrieve_res_id_string(self, input_res, id_type, typ):
@@ -313,7 +313,7 @@ class ResourceFinder(object):
                         <{}> <{}> ;
                         <{}> ?id
                     ]
-                }}'''.format(res, GraphEntity.has_identifier, GraphEntity.uses_identifier_scheme, id_type, GraphEntity.has_literal_value)
+                }}'''.format(res, GraphEntity.iri_has_identifier, GraphEntity.iri_uses_identifier_scheme, id_type, GraphEntity.iri_has_literal_value)
                 return self.__query_blazegraph(query, typ)
 
     def __retrieve_res_id_by_type(self, input_res, id_string, id_type, typ):
@@ -350,7 +350,7 @@ class ResourceFinder(object):
                 <{}> <{}> ?id .
                 ?id <{}> <{}> ;
                     <{}> "{}"
-            }}'''.format(res, GraphEntity.has_identifier, GraphEntity.uses_identifier_scheme, id_type, GraphEntity.has_literal_value,id_string)
+            }}'''.format(res, GraphEntity.iri_has_identifier, GraphEntity.iri_uses_identifier_scheme, id_type, GraphEntity.iri_has_literal_value,id_string)
 
             return self.__query_blazegraph(query)
 
@@ -538,8 +538,8 @@ class ResourceFinder(object):
                 ?id <{}> <{}> ;
                     <{}> "{}" .
                 {}
-            }}'''.format(GraphEntity.has_identifier, GraphEntity.uses_identifier_scheme, id_type,
-                         GraphEntity.has_literal_value, id_string, extras)
+            }}'''.format(GraphEntity.iri_has_identifier, GraphEntity.iri_uses_identifier_scheme, id_type,
+                         GraphEntity.iri_has_literal_value, id_string, extras)
 
             return self.__query(query, typ=typ)
 

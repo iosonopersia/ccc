@@ -61,11 +61,11 @@ class CrossrefDataHandler(object):
         if "container-title" in json and len(json["container-title"]) > 0:
             cur_issns = CrossrefDataHandler.get_all_issns(json)
             if cur_issns:
-                result[GraphEntity.issn] = cur_issns
+                result[GraphEntity.iri_issn] = cur_issns
 
             cur_isbns = CrossrefDataHandler.get_all_isbns(json)
             if cur_isbns:
-                result[GraphEntity.isbn] = cur_isbns
+                result[GraphEntity.iri_isbn] = cur_isbns
 
         return result
 
@@ -107,19 +107,19 @@ class CrossrefDataHandler(object):
         result = {}
 
         if "DOI" in json:
-            result[GraphEntity.doi] = [json["DOI"]]
+            result[GraphEntity.iri_doi] = [json["DOI"]]
 
         #if "URL" in json:
-        #    result[GraphEntity.url] = [json["URL"]]
+        #    result[GraphEntity.iri_url] = [json["URL"]]
 
         if "container-title" not in json or len(json["container-title"]) == 0:
             cur_issns = CrossrefDataHandler.get_all_issns(json)
             if cur_issns:
-                result[GraphEntity.issn] = cur_issns
+                result[GraphEntity.iri_issn] = cur_issns
 
             cur_isbns = CrossrefDataHandler.get_all_isbns(json)
             if cur_isbns:
-                result[GraphEntity.isbn] = cur_isbns
+                result[GraphEntity.iri_isbn] = cur_isbns
 
         return result
 

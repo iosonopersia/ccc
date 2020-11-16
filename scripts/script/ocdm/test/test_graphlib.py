@@ -33,27 +33,27 @@ class GraphlibTest(unittest.TestCase):
     def test_create_pub_date(self):
         ge = self.__new_ge()
         ge.has_pub_date([2018, 1, 1])
-        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.has_publication_date))), "2018")
+        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.iri_has_publication_date))), "2018")
 
         ge = self.__new_ge()
         ge.has_pub_date([2018, 1])
-        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.has_publication_date))), "2018-01")
+        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.iri_has_publication_date))), "2018-01")
 
         ge = self.__new_ge()
         ge.has_pub_date([2018, 1, 15])
-        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.has_publication_date))), "2018-01-15")
+        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.iri_has_publication_date))), "2018-01-15")
 
         ge = self.__new_ge()
         ge.has_pub_date([2018, 12, 1])
-        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.has_publication_date))), "2018-12-01")
+        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.iri_has_publication_date))), "2018-12-01")
 
         ge = self.__new_ge()
         ge.has_pub_date([2018, 3, 1])
-        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.has_publication_date))), "2018-03-01")
+        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.iri_has_publication_date))), "2018-03-01")
 
         ge = self.__new_ge()
         ge.has_pub_date([2018, 3, 23])
-        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.has_publication_date))), "2018-03-23")
+        self.assertEqual(str(next(ge.g.objects(self.fe, GraphEntity.iri_has_publication_date))), "2018-03-23")
 
 
 if __name__ == '__main__':
