@@ -230,13 +230,15 @@ class CrossrefDataHandler(object):
             # exist in the store)
             cur_role = self.g_set.add_ar(self.name, self.id, source)
             if json["type"] == "edited-book":
-                cur_role.create_editor(cur_br)
+                cur_role.create_editor()
+                cur_br.has_contributor(cur_role)
             else:
-                cur_role.create_author(cur_br)
-            cur_agent.has_role(cur_role)
+                cur_role.create_author()
+                cur_br.has_contributor(cur_role)
+            cur_role.is_held_by(cur_agent)
 
             if prev_role is not None:
-                cur_role.follows(prev_role)
+                prev_role.has_next(cur_role)
 
             prev_role = cur_role
 
@@ -269,8 +271,9 @@ class CrossrefDataHandler(object):
                 self.rf.add_crossref_to_store(cur_agent, cur_agent_id, json['member'])
 
         cur_role = self.g_set.add_ar(self.name, self.id, source)
-        cur_role.create_publisher(cur_br)
-        cur_agent.has_role(cur_role)
+        cur_role.create_publisher()
+        cur_br.has_contributor(cur_role)
+        cur_role.is_held_by(cur_agent)
 
     def doi(self, cur_br, key, json, source, doi_curator, doi_source_provider, doi_source, *args):
         cur_id = self.g_set.add_id(doi_curator, doi_source_provider, doi_source)
@@ -357,7 +360,7 @@ class CrossrefDataHandler(object):
                     cont_book.has_title(cur_container_title)
                     self.__associate_isbn(cont_book, json, source)
                     already_associated_isbn = True
-                    cont_book.has_part(cont_br)
+                    cont_br.is_part_of(cont_book)
                     cont_br.create_book_section()
                 elif cur_type == "component":
                     cur_container_type = "component"
@@ -392,7 +395,7 @@ class CrossrefDataHandler(object):
                             cont_br.has_number(cur_issue_id)
 
                             if cur_volume_id is None:
-                                jou_br.has_part(cont_br)
+                                cont_br.is_part_of(jou_br)
                             else:
                                 retrieved_volume = None
                                 if self.rf is not None:
@@ -401,12 +404,12 @@ class CrossrefDataHandler(object):
                                     vol_br = self.g_set.add_br(
                                         self.name, self.id, source)
                                     CrossrefDataHandler.add_volume_data(vol_br, cur_volume_id)
-                                    jou_br.has_part(vol_br)
+                                    vol_br.is_part_of(jou_br)
                                     self.rf.add_volume_to_store(jou_br.res, vol_br, cur_volume_id)
                                 else:
                                     vol_br = self.g_set.add_br(
                                         self.name, self.id, source, retrieved_volume)
-                                vol_br.has_part(cont_br)
+                                cont_br.is_part_of(vol_br)
                             
                             self.rf.add_issue_to_store(jou_br.res, cur_volume_id, cur_issue_id, cont_br)
 
@@ -414,7 +417,7 @@ class CrossrefDataHandler(object):
                             cur_container_type = "journal-volume"
                             vol_br = cont_br
                             CrossrefDataHandler.add_volume_data(vol_br, cur_volume_id)
-                            jou_br.has_part(vol_br)
+                            vol_br.is_part_of(jou_br)
                             self.rf.add_volume_to_store(jou_br.res, vol_br, cur_volume_id)
 
                 elif cur_type == "journal-issue":
@@ -436,7 +439,7 @@ class CrossrefDataHandler(object):
                         else:
                             jou_br = self.g_set.add_br(self.name, self.id, source, retrieved_journal)
 
-                        jou_br.has_part(cont_br)
+                        cont_br.is_part_of(jou_br)
                         self.rf.add_volume_to_store(jou_br.res, cont_br, cur_volume_id)
                     else:
                         jou_br = cont_br
@@ -482,7 +485,7 @@ class CrossrefDataHandler(object):
                         self.__associate_isbn(cont_br, json, source)
 
         if cont_br is not None:
-            cont_br.has_part(cur_br)
+            cur_br.is_part_of(cont_br)
 
 
     def type(self, cur_br, key, json, source, *args):

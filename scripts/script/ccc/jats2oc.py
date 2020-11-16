@@ -1759,7 +1759,7 @@ class Jats2OC(object):
 		if Jats2OC.is_path(xpath_string) and xpath_string != '/':
 			cur_el = Jats2OC.de_finder(graph, citing_entity, xpath_string, context_sequence, de_resources,containers_title, resp_agent, source_provider, source)
 			if cur_el != None:
-				de_res.contained_in_discourse_element(cur_el)
+				cur_el.contains_discourse_element(de_res)
 				hierarchy = Jats2OC.create_hierarchy(graph, citing_entity, cur_el, Jats2OC.get_subxpath_from(xpath_string), context_sequence, de_resources, containers_title, resp_agent, source_provider, source)
 				if xpath_string.count('/') == 3: # e.g. "/article/body/sec"
 					citing_entity.contains_discourse_element(cur_el)

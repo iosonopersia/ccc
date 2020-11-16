@@ -143,7 +143,8 @@ class CrossrefProcessor(FormatProcessor):
                 if cur_bibentry is not None and cur_bibentry.strip():
                     cur_be = self.g_set.add_be(self.curator, self.source_provider, self.source)
                     citing_entity.contains_in_reference_list(cur_be)
-                    cited_entity.has_reference(cur_be)
+
+                    cur_be.references_br(cited_entity)
                     self.__add_xmlid(cur_be, cur_be_xmlid)  # new
                     cur_be.has_content(cur_bibentry.strip())
                     cited_entities_xmlid_be.append((cited_entity, cur_be_xmlid, cur_be))
