@@ -264,15 +264,6 @@ class ResourceFinder(object):
     def retrieve_br_pmcid(self, res, string, typ):
         return self.__retrieve_res_id_by_type(res, string, GraphEntity.iri_pmcid, typ)
 
-    def retrieve_last_snapshot(self, prov_subj):
-        query = '''
-            SELECT DISTINCT ?se WHERE {{
-                ?se <{}> <{}> .
-                FILTER NOT EXISTS {{?se <{}> ?ca }}
-            }} LIMIT 1
-        '''.format(ProvEntity.iri_specialization_of, str(prov_subj), ProvEntity.iri_was_invalidated_by)
-        return self.__query(query)
-
     def __retrieve_res_id_string(self, input_res, id_type, typ):
         if id_type is not None and input_res is not None:
             if type(input_res) is GraphEntity:
