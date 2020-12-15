@@ -46,7 +46,7 @@ agent_name="Import Script"
 
 def store_all(gs):
     prov = ProvSet(gs, base_iri, context_path, FilesystemCounterHandler(full_info_dir), "", triplestore_url)  # Prefix set to "" so as to avoid it for prov data
-    prov.generate_provenance(resp_agent="")
+    prov.generate_provenance()
 
     print("Store the data for %s entities." % str(entity_count))
     res_storer = Storer(gs,

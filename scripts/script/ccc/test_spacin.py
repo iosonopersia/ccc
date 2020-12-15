@@ -50,7 +50,7 @@ try:
                             if result is not None:
                                 prov = ProvSet(result, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
                                                supplier_prefix, triplestore_url)
-                                prov.generate_provenance(resp_agent="https://w3id.org/oc/ccc/prov/pa/0701") # TODO is it fine?
+                                prov.generate_provenance()
 
                                 res_storer = Storer(result,
                                                     context_map={context_path: context_file_path},
