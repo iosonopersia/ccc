@@ -73,7 +73,7 @@ try:
                             result = crp.process()
                             if result is not None:
                                 prov = ProvSet(result, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
-                                               supplier_prefix, triplestore_url)
+                                               supplier_prefix)
                                 prov.generate_provenance()
 
                                 res_storer = Storer(result,

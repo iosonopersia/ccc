@@ -63,7 +63,7 @@ try:
                             n_document_processed += 1
                             if result is not None:
                                 prov = ProvSet(result, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
-                                               supplier_prefix, triplestore_url, wanted_label=False)
+                                               supplier_prefix, wanted_label=False)
                                 prov.generate_provenance()
 
                                 res_storer = Storer(result,

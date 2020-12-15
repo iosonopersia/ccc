@@ -41,7 +41,7 @@ agent_name="FixDOI Script"
 
 def update_all(g_set, remove_entity, full_info_dir):
     prov = ProvSet(g_set, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
-                   "", triplestore_url)
+                   "")
     if remove_entity:
         for entity in g_set.res_to_entity.values():
             entity.mark_as_to_be_deleted()
