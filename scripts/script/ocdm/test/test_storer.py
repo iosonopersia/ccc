@@ -17,7 +17,7 @@
 __author__ = 'essepuntato'
 
 import unittest
-from script.ocdm.storer import Storer
+from oc_ocdm import Storer
 from rdflib import Graph, URIRef
 from rdflib.namespace import FOAF
 from script.spacin.conf import base_iri, context_path, items_per_file, dir_split_number, base_dir, temp_dir_for_rdf_loading, context_file_path, default_dir

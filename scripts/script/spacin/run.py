@@ -31,8 +31,7 @@ from script.support.stopper import Stopper
 from script.spacin.crossrefproc import CrossrefProcessor
 from script.spacin.resfinder import ResourceFinder
 from script.spacin.orcidfinder import ORCIDFinder
-from oc_ocdm import ProvSet
-from script.ocdm.storer import Storer
+from oc_ocdm import ProvSet, Storer
 from script.ocdm.datasethandler import DatasetHandler
 from script.support.support import move_file, get_ip_id
 from os import sep, walk, path, listdir, makedirs

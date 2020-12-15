@@ -20,7 +20,7 @@ import argparse
 import os
 from re import match, sub
 from script.support.reporter import Reporter
-from script.ocdm.storer import Storer
+from oc_ocdm import Storer
 from script.spacin.conf import context_path, context_file_path, dir_split_number, items_per_file, \
     default_dir, temp_dir_for_rdf_loading
 
