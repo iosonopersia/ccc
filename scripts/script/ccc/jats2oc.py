@@ -1636,7 +1636,7 @@ class Jats2OC(object):
 	def add_xpath(graph, cur_res, xpath_string, resp_agent=None, source_provider=None, source=None): # new
 		cur_id = graph.add_id(resp_agent, source_provider, source)
 		cur_id.create_xpath(xpath_string)
-		cur_res.has_id(cur_id)
+		cur_res.has_identifier(cur_id)
 
 
 	@staticmethod
@@ -1648,7 +1648,7 @@ class Jats2OC(object):
 			intrepid = citing_count+'-'+cited_count+'/'+rp_num+'-'+rp_total_occurrence
 			cur_id = graph.add_id(resp_agent, source_provider, source)
 			cur_id.create_intrepid(intrepid)
-			cur_rp.has_id(cur_id)
+			cur_rp.has_identifier(cur_id)
 
 	@staticmethod
 	def add_oci(graph, cur_ci, citing_entity, cited_entity, resp_agent, source_provider, source, rp_num=None):
@@ -1659,12 +1659,12 @@ class Jats2OC(object):
 			oci = citing_count+'-'+cited_count+'/'+rp_num
 			cur_id = graph.add_id(resp_agent, source_provider, source)
 			cur_id.create_oci(oci)
-			cur_ci.has_id(cur_id)
+			cur_ci.has_identifier(cur_id)
 		else:
 			oci = citing_count+'-'+cited_count
 			cur_id = graph.add_id(resp_agent, source_provider, source)
 			cur_id.create_oci(oci)
-			cur_ci.has_id(cur_id)
+			cur_ci.has_identifier(cur_id)
 
 	@staticmethod
 	def create_context(graph, citing_entity, cur_rp_or_pl, xpath_string, context_sequence, de_resources, containers_title, resp_agent=None, source_provider=None, source=None):

@@ -566,7 +566,7 @@ class CrossrefProcessor(FormatProcessor):
             if cur_id is None:
                 cur_id = self.g_set.add_id(self.name, self.source_provider, self.source)
                 cur_id.create_url(extracted_url)
-                cur_res.has_id(cur_id)
+                cur_res.has_identifier(cur_id)
 
             if type(cur_res) is GraphEntity:
                 cur_res = cur_res.res
@@ -585,7 +585,7 @@ class CrossrefProcessor(FormatProcessor):
             if cur_id is None:
                 cur_id = self.g_set.add_id(self.curator, self.source_provider, self.source)
                 cur_id.create_pmid(pmid_string)
-                cur_res.has_id(cur_id)
+                cur_res.has_identifier(cur_id)
 
             if type(cur_res) is GraphEntity:
                 cur_res = cur_res.res
@@ -604,7 +604,7 @@ class CrossrefProcessor(FormatProcessor):
             if cur_id is None:
                 cur_id = self.g_set.add_id(self.curator, self.source_provider, self.source)
                 cur_id.create_pmcid(pmcid_string)
-                cur_res.has_id(cur_id)
+                cur_res.has_identifier(cur_id)
 
             if type(cur_res) is GraphEntity:
                 cur_res = cur_res.res
@@ -623,7 +623,7 @@ class CrossrefProcessor(FormatProcessor):
             if cur_id is None:
                 cur_id = self.g_set.add_id(curator, self.source_provider, self.source)
                 cur_id.create_doi(extracted_doi)
-                cur_res.has_id(cur_id)
+                cur_res.has_identifier(cur_id)
 
             if type(cur_res) is GraphEntity:
                 cur_res = cur_res.res
@@ -639,7 +639,7 @@ class CrossrefProcessor(FormatProcessor):
         if xmlid_string is not None:
             cur_id = self.g_set.add_id(self.curator, self.source_provider, self.source)
             cur_id.create_xmlid(xmlid_string)
-            cur_res.has_id(cur_id)
+            cur_res.has_identifier(cur_id)
 
     def process_pmid(self, pmid, typ="both"):
         existing_res = self.rf.retrieve_from_pmid(pmid, typ=typ)

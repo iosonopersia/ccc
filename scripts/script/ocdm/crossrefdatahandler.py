@@ -48,11 +48,11 @@ class CrossrefDataHandler(object):
 
     def __associate_isbn(self, res, json, source):
         for string in CrossrefDataHandler.get_all_isbns(json):
-            retrieved = self.rf.retrieve_res_id_by_type(res.res, string, GraphEntity.isbn, 'both')
+            retrieved = self.rf.retrieve_res_id_by_type(res.res, string, GraphEntity.iri_isbn, 'both')
             if retrieved is None:
                 cur_id = self.g_set.add_id(self.name, self.id, source)
                 if cur_id.create_isbn(string):
-                    res.has_id(cur_id)
+                    res.has_identifier(cur_id)
                     self.rf.add_isbn_to_store(res, cur_id, string)
 
 
@@ -72,11 +72,11 @@ class CrossrefDataHandler(object):
 
     def __associate_issn(self, res, json, source):
         for string in CrossrefDataHandler.get_all_issns(json):
-            retrieved = self.rf.retrieve_res_id_by_type(res.res, string, GraphEntity.issn, 'both')
+            retrieved = self.rf.retrieve_res_id_by_type(res.res, string, GraphEntity.iri_issn, 'both')
             if retrieved is None:
                 cur_id = self.g_set.add_id(self.name, self.id, source)
                 if cur_id.create_issn(string):
-                    res.has_id(cur_id)
+                    res.has_identifier(cur_id)
                     self.rf.add_issn_to_store(res, cur_id, string)
 
     @staticmethod
@@ -212,7 +212,7 @@ class CrossrefDataHandler(object):
                 if cur_orcid_record is not None and self.of is not None:
                     cur_agent_orcid = self.g_set.add_id(self.of.name, self.of.id, self.of.get_last_query())
                     cur_agent_orcid.create_orcid(cur_orcid_record["orcid"])
-                    cur_agent.has_id(cur_agent_orcid)
+                    cur_agent.has_identifier(cur_agent_orcid)
                     self.rf.add_orcid_to_store(cur_agent, cur_agent_orcid, cur_orcid_record["orcid"])
 
                 if given_name_string is not None:
@@ -268,7 +268,7 @@ class CrossrefDataHandler(object):
             if cur_member_url is not None:
                 cur_agent_id = self.g_set.add_id(self.name, self.id, source)
                 cur_agent_id.create_crossref(json["member"])
-                cur_agent.has_id(cur_agent_id)
+                cur_agent.has_identifier(cur_agent_id)
                 self.rf.add_crossref_to_store(cur_agent, cur_agent_id, json['member'])
 
         cur_role = self.g_set.add_ar(self.name, self.id, source)
@@ -279,7 +279,7 @@ class CrossrefDataHandler(object):
     def doi(self, cur_br, key, json, source, doi_curator, doi_source_provider, doi_source, *args):
         cur_id = self.g_set.add_id(doi_curator, doi_source_provider, doi_source)
         if cur_id.create_doi(json[key]):
-            cur_br.has_id(cur_id)
+            cur_br.has_identifier(cur_id)
         self.rf.add_doi_to_store(cur_br, cur_id, json[key])
 
     def issued(self, cur_br, key, json, *args):
@@ -289,7 +289,7 @@ class CrossrefDataHandler(object):
     def url(self, cur_br, key, json, source, *args):
         cur_id = self.g_set.add_id(self.name, self.id, source)
         if cur_id.create_url(json[key]):
-            cur_br.has_id(cur_id)
+            cur_br.has_identifier(cur_id)
         self.rf.add_url_to_store(cur_br, cur_id, json[key])
 
     def page(self, cur_br, key, json, source, *args):
