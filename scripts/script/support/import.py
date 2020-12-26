@@ -44,7 +44,7 @@ agent_name="Import Script"
 
 
 def store_all(gs):
-    prov = ProvSet(gs, base_iri, context_path, FilesystemCounterHandler(full_info_dir), "")  # Prefix set to "" so as to avoid it for prov data
+    prov = ProvSet(gs, base_iri, FilesystemCounterHandler(full_info_dir))  # Prefix set to default "" so as to avoid it for prov data
     prov.generate_provenance()
 
     print("Store the data for %s entities." % str(entity_count))
@@ -194,14 +194,14 @@ if __name__ == "__main__":
     full_info_dir = info_dir + args.prefix + sep
 
     print("Generate data compliant with the OCDM.")
-    gs = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
+    gs = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
     entity_count = 1000
     counter = 0
     for s in g.subjects():
         if counter == entity_count:
             store_all(gs)
             counter = 0
-            gs = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
+            gs = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
 
         with open(args.done, "a") as f:
             s_string = str(s)

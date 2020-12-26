@@ -28,7 +28,7 @@ class GraphlibTest(unittest.TestCase):
         self.fe = URIRef("fake_res")
 
     def __new_ge(self):
-        return GraphEntity(Graph(), self.fe, g_set=GraphSet(base_iri, context_path, FilesystemCounterHandler(info_dir)))
+        return GraphEntity(Graph(), self.fe, g_set=GraphSet(base_iri, FilesystemCounterHandler(info_dir)))
 
     def test_create_pub_date(self):
         ge = self.__new_ge()

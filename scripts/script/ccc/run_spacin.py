@@ -62,8 +62,8 @@ try:
                             mean_time += time_spent
                             n_document_processed += 1
                             if result is not None:
-                                prov = ProvSet(result, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
-                                               supplier_prefix, wanted_label=False)
+                                prov = ProvSet(result, base_iri, FilesystemCounterHandler(full_info_dir),
+                                               supplier_prefix, False)
                                 prov.generate_provenance()
 
                                 res_storer = Storer(result,

@@ -47,7 +47,7 @@ try:
                                                     ORCIDFinder(orcid_conf_path), items_per_file, supplier_prefix, intext_refs=True)
                             result = crp.process()
                             if result is not None:
-                                prov = ProvSet(result, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
+                                prov = ProvSet(result, base_iri, FilesystemCounterHandler(full_info_dir),
                                                supplier_prefix)
                                 prov.generate_provenance()
 

@@ -40,8 +40,7 @@ agent_name="FixDOI Script"
 
 
 def update_all(g_set, remove_entity, full_info_dir):
-    prov = ProvSet(g_set, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
-                   "")
+    prov = ProvSet(g_set, base_iri, FilesystemCounterHandler(full_info_dir))
     if remove_entity:
         for entity in g_set.res_to_entity.values():
             entity.mark_as_to_be_deleted()
@@ -195,8 +194,8 @@ if __name__ == "__main__":
             br_iri = []
             br_files = {}
             id_files = {}
-            update_br = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
-            remove_id = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
+            update_br = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
+            remove_id = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
 
             print("\n\nSupplier directory '%s'" % full_info_dir)
             to_remove = info_dirs[full_info_dir]
@@ -210,8 +209,8 @@ if __name__ == "__main__":
                     br_iri = []
                     br_files = {}
                     id_files = {}
-                    update_br = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
-                    remove_id = GraphSet(base_iri, context_path, FilesystemCounterHandler(full_info_dir))
+                    update_br = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
+                    remove_id = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
 
                 if str(br) not in br_done:  # Check if it has not been considered, and if so process it
                     br_counter += 1

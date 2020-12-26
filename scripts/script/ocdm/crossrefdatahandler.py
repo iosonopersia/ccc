@@ -37,7 +37,7 @@ class CrossrefDataHandler(object):
 
     issn_types = ["book-series", "book-set", "journal", "report-series", "standard-series"]
 
-    def __init__(self, graph_set=GraphSet("http://localhost:8000/corpus/", "corpus/context.json",
+    def __init__(self, graph_set=GraphSet("http://localhost:8000/corpus/",
                                           FilesystemCounterHandler("test/share/id-counter/_/")),
                  orcid_finder=None, resource_finder=None):
         self.name = "Crossref Data Handler"

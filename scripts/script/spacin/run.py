@@ -72,7 +72,7 @@ try:
                                                     query_interface='remote')
                             result = crp.process()
                             if result is not None:
-                                prov = ProvSet(result, base_iri, context_path, FilesystemCounterHandler(full_info_dir),
+                                prov = ProvSet(result, base_iri, FilesystemCounterHandler(full_info_dir),
                                                supplier_prefix)
                                 prov.generate_provenance()
 
