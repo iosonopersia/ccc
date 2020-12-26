@@ -115,7 +115,7 @@ class ResourceFinder(object):
             for file_path in file_list:
                 if file_path not in self.loaded:
                     self.loaded.add(file_path)
-                    cur_g = self.storer.load(file_path, tmp_dir=self.tmp_dir)
+                    cur_g = self.storer._load(file_path, tmp_dir=self.tmp_dir)
                     #self.add_triples_in_graph(cur_g)
 
     def add_triples_in_graph(self, g):

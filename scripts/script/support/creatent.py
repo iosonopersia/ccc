@@ -48,7 +48,7 @@ if __name__ == "__main__":
         with open(args.output, 'a') as f:
             for cur_file in cur_files:
                 if match("^[0-9]+\.json", cur_file) is not None:
-                    cur_g = s.load(cur_dir + os.sep + cur_file, tmp_dir=temp_dir_for_rdf_loading)
+                    cur_g = s._load(cur_dir + os.sep + cur_file, tmp_dir=temp_dir_for_rdf_loading)
                     nt_strings = cur_g.serialize(format="nt11", encoding="utf-8").decode("utf-8")
                     f.write(nt_strings)
 

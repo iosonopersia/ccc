@@ -218,7 +218,7 @@ if __name__ == "__main__":
                     cur_dir, cur_file = find_paths(str(br), base_dir, base_iri, default_dir,
                                                    dir_split_number, items_per_file)
                     if cur_file not in br_files:
-                        g = s.load(cur_file, tmp_dir=temp_dir_for_rdf_loading)
+                        g = s._load(cur_file, tmp_dir=temp_dir_for_rdf_loading)
                         br_files[cur_file] = g
 
                     cur_g = br_files[cur_file]
@@ -236,7 +236,7 @@ if __name__ == "__main__":
                                                                  dir_split_number, items_per_file)
 
                             if cur_id_file not in id_files:
-                                g_id = s.load(cur_id_file, tmp_dir=temp_dir_for_rdf_loading)
+                                g_id = s._load(cur_id_file, tmp_dir=temp_dir_for_rdf_loading)
                                 id_files[cur_id_file] = g_id
 
                             cur_id_g = id_files[cur_id_file]
