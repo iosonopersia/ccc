@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import os , re
-from oc_ocdm import GraphEntity
+from oc_ocdm.graph import GraphEntity
 
 # ABBREVIATIONS FOR SENTENCE TOKENIZER
 abbreviations_list_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Abbreviations.txt'))

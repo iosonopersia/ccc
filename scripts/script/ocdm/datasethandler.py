@@ -22,7 +22,8 @@ import os
 from rdflib import Graph, Namespace, URIRef
 from rdflib.namespace import XSD, RDF, RDFS
 from script.support.support import create_literal, create_type
-from oc_ocdm import GraphSet, Storer
+from oc_ocdm import Storer
+from oc_ocdm.graph import GraphSet
 from script.support.reporter import Reporter
 
 

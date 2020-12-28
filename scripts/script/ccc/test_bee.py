@@ -3,7 +3,6 @@
 import script.ccc.jats2oc as jats2oc
 import script.ccc.conf_bee as conf
 import pprint , os , csv
-from oc_ocdm import *
 from lxml import etree as ET
 
 # test

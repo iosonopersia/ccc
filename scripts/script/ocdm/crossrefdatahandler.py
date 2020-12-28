@@ -21,8 +21,8 @@ from oc_ocdm.support import create_date
 from script.support.support import dict_list_get_by_value_ascii as dgt
 from script.support.support import string_list_close_match as slc
 from script.support.support import dict_get as dg
-from oc_ocdm import GraphSet
-from oc_ocdm import GraphEntity
+from oc_ocdm.graph import GraphSet
+from oc_ocdm.graph import GraphEntity
 from re import sub
 
 

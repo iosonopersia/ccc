@@ -19,7 +19,7 @@ import re
 
 from oc_ocdm.counter_handler import FilesystemCounterHandler
 from script.support.reporter import Reporter
-from oc_ocdm import GraphSet
+from oc_ocdm.graph import GraphSet
 from script.support.support import normalise_ascii as sa
 from urllib.parse import quote
 

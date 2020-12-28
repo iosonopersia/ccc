@@ -21,10 +21,9 @@ from itertools import groupby
 from collections import defaultdict, Counter
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
 import nltk.tokenize.punkt as pkt
-from oc_ocdm.entities.bibliographic import ReferencePointer, PointerList
+from oc_ocdm.graph.entities.bibliographic import ReferencePointer, PointerList
 
 from script.spacin.formatproc import FormatProcessor
-from oc_ocdm import *
 from script.ocdm.conf import context_path as context_path
 
 from fuzzywuzzy import fuzz

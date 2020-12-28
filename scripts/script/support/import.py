@@ -23,7 +23,9 @@ from os import path
 from script.spacin.resfinder import ResourceFinder
 from script.spacin.conf import base_iri, context_path, base_dir, temp_dir_for_rdf_loading, context_file_path, \
     dir_split_number, items_per_file, triplestore_url_real, dataset_home, default_dir, info_dir, triplestore_url
-from oc_ocdm import GraphSet, ProvSet, Storer
+from oc_ocdm import Storer
+from oc_ocdm.graph import GraphSet
+from oc_ocdm.prov import ProvSet
 from oc_ocdm.counter_handler import FilesystemCounterHandler
 from os import sep
 from script.ocdm.datasethandler import DatasetHandler

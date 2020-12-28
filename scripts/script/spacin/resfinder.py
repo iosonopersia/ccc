@@ -17,7 +17,9 @@
 __author__ = 'essepuntato, Gabriele Pisciotta'
 
 from rdflib import Graph, ConjunctiveGraph, URIRef
-from oc_ocdm import GraphEntity, ProvEntity, Storer
+from oc_ocdm import Storer
+from oc_ocdm.graph import GraphEntity
+from oc_ocdm.prov import ProvEntity
 import os
 from script.support.support import find_paths
 
