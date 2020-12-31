@@ -26,7 +26,6 @@ from script.spacin.conf import base_iri, context_path, base_dir, temp_dir_for_rd
 from oc_ocdm import Storer
 from oc_ocdm.graph import GraphSet
 from oc_ocdm.prov import ProvSet
-from oc_ocdm.counter_handler import FilesystemCounterHandler
 from os import sep
 from script.ocdm.datasethandler import DatasetHandler
 
@@ -46,7 +45,7 @@ agent_name="Import Script"
 
 
 def store_all(gs):
-    prov = ProvSet(gs, base_iri, FilesystemCounterHandler(full_info_dir))  # Prefix set to default "" so as to avoid it for prov data
+    prov = ProvSet(gs, base_iri, full_info_dir)  # Prefix set to default "" so as to avoid it for prov data
     prov.generate_provenance()
 
     print("Store the data for %s entities." % str(entity_count))
@@ -196,14 +195,14 @@ if __name__ == "__main__":
     full_info_dir = info_dir + args.prefix + sep
 
     print("Generate data compliant with the OCDM.")
-    gs = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
+    gs = GraphSet(base_iri, full_info_dir)
     entity_count = 1000
     counter = 0
     for s in g.subjects():
         if counter == entity_count:
             store_all(gs)
             counter = 0
-            gs = GraphSet(base_iri, FilesystemCounterHandler(full_info_dir))
+            gs = GraphSet(base_iri, full_info_dir)
 
         with open(args.done, "a") as f:
             s_string = str(s)

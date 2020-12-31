@@ -3,7 +3,6 @@
 import json, traceback, re, shutil
 from datetime import datetime
 
-from oc_ocdm.counter_handler import FilesystemCounterHandler
 from script.ccc.conf_spacin import reference_dir, base_iri, context_path, info_dir, triplestore_url, orcid_conf_path, \
     base_dir, temp_dir_for_rdf_loading, context_file_path, dir_split_number, items_per_file, triplestore_url_real, \
     dataset_home, reference_dir_done, reference_dir_error, interface, supplier_dir, default_dir, do_parallel, \
@@ -48,8 +47,7 @@ try:
                                                     ORCIDFinder(orcid_conf_path), items_per_file, supplier_prefix, intext_refs=True)
                             result = crp.process()
                             if result is not None:
-                                prov = ProvSet(result, base_iri, FilesystemCounterHandler(full_info_dir),
-                                               supplier_prefix)
+                                prov = ProvSet(result, base_iri, full_info_dir, supplier_prefix)
                                 prov.generate_provenance()
 
                                 res_storer = Storer(result,
